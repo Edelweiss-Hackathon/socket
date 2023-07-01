@@ -1,0 +1,78 @@
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+  <title>Market Data Client</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <button onclick="connectToServer()">Connect to Server</button>
+  <div id="snapshotData"></div>
+
+  <script>
+    function connectToServer() {
+      var serverAddress = "127.0.0.1"; // Replace with your server address
+      var serverPort = 8080; // Replace with your server port number
+
+      var socket = new WebSocket("wss://" + serverAddress + ":" + serverPort);
+
+      socket.onopen = function () {
+        // Send the ready byte to indicate that the client is ready to process responses
+        var readyPacket = new Uint8Array(1);
+        readyPacket[0] = 1;
+        socket.send(readyPacket);
+      };
+
+      socket.onmessage = function (event) {
+        // Receive and display the snapshot data from the server
+        var snapshotData = event.data;
+        document.getElementById("snapshotData").textContent = snapshotData;
+      };
+
+      socket.onerror = function () {
+        console.log("Connection Error");
+      };
+
+      socket.onclose = function () {
+        console.log("Connection closed");
+      };
+    }
+  </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <!-- <meta charset="UTF-8"> -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+</head>
+
+
+<body>
+  <ul id="outputList"></ul>
+
+  <script src="utf8.js">
+    const socket = io();
+
+    // Listen for 'output' event and update the list on the webpage
+    socket.on('output', (data) => {
+      const outputList = document.getElementById('outputList');
+      const listItem = document.createElement('li');
+      listItem.textContent = data;
+      outputList.appendChild(listItem);
+    });
+  </script>
+</body>
+
+</html>
